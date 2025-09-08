@@ -37,7 +37,7 @@ compose.desktop {
         mainClass = "org.assignment.project.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
             packageName = "org.assignment.project"
             packageVersion = "1.0.0"
         }

@@ -13,12 +13,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.assignment.project.ui.NewtonMethodUI
 
 import androidx.compose.animation.*
-import androidx.compose.runtime.*
+import org.assignment.project.ui.BaseSection
+import org.assignment.project.ui.theme.AssignmentTheme
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    AssignmentTheme {
         var selectedContent by remember { mutableStateOf(0) }
 
         Row(
