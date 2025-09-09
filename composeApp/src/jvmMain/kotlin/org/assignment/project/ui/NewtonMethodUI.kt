@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,15 +31,16 @@ import org.assignment.project.ui.utils.GenericArea
 fun NewtonMethodUI(
     modifier: Modifier
 ) {
-    val f: (Double) -> Double = { x -> x * x * x - x - 2 }     // default f(x)
-    val fPrime: (Double) -> Double = { x -> 3 * x * x - 1 }    // default f'(x)
+    val f: (Double) -> Double = { x -> x * x * x - x - 2 }
+    val fPrime: (Double) -> Double = { x -> 3 * x * x - 1 }
     var results by remember { mutableStateOf<List<IterationResult>>(emptyList()) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(24.dp),
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -50,6 +53,11 @@ fun NewtonMethodUI(
         GenericArea(
             type = 2,
             "Newton-Raphson Method",
+            defaultGuess = 1.0,
+            defaultMaxIterations = 50,
+            defaultTolerance = 1e-6,
+            defaultLeftEndpoint = 0.0,
+            defaultRightEndpoint = 0.0,
             onCalculate = { initialGuess, leftEndpoint, rightEndpoint, maxIterations, tolerance ->
                 results = newtonMethod(
                     f = f,
@@ -70,15 +78,11 @@ fun NewtonMethodUI(
                     .padding(top = 24.dp, bottom = 0.dp, start = 24.dp, end = 24.dp)
             ){
                 Text("Results:", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                LazyColumn {
-                    items(results.size) { r ->
-                        Text("Iter ${results[r].iteration}: x = ${results[r].x}, error = ${results[r].error}")
-                    }
 
-                    item{
-                        Spacer(modifier = Modifier.height(24.dp))
-                    }
+                results.forEach {result->
+                    Text("Iter ${result.iteration}: x = ${result.x}, error = ${result.error}")
                 }
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
